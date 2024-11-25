@@ -1,6 +1,8 @@
-package my.training;
+package my.training.controller;
 
 import lombok.AllArgsConstructor;
+import my.training.dto.Greeting;
+import my.training.service.GreetingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +15,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 @RequestMapping("/d2c/v1")
 public class ClientController {
-    private final RestTemplate restTemplate;
+    private final GreetingService greetingService;
 
     @GetMapping("/greeting")
-    public ResponseEntity<Greeting> greeting(@RequestParam String name) {
-        Greeting response = restTemplate.getForObject(
-                UriComponentsBuilder.fromUriString("https://localhost:8443/greeting")
-                        .queryParam("name", name)
-                        .build().toUriString()
-                , Greeting.class);
+    public ResponseEntity<Greeting> greet(@RequestParam String name) {
+        Greeting response = greetingService.greet(name);
         return response == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
     }
 }

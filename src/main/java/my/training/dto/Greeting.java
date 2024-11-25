@@ -1,4 +1,4 @@
-package my.training;
+package my.training.dto;
 
 import lombok.Data;
 
